@@ -5,9 +5,10 @@ package EventCalendar;
 
 public interface Completable {
 
-    /*
-    complete(): void
-	isComplete(): boolean
-    */
+    //sets completness
+    void complete();
+
+    //returns true if complete, false otherwise
+    boolean isComplete();
 
 }
