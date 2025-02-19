@@ -1,81 +1,67 @@
 //Author: Miles Glover
-//Purpose of File:
 
 package EventCalendar;
 
+//import
 import java.time.Duration;
 import java.time.LocalDateTime;
 
-public class Meeting implements Completable {
+//class handles all data and functions concerning meetings
+class Meeting extends Event implements Completable {
 
     //class variables
-    private String name;
-    private LocalDateTime start;
-    private LocalDateTime endDateTime;
+    private LocalDateTime endTime;
     private String location;
     private boolean complete;
 
-    //constructor for meeting
+    //constructor
     public Meeting(String name, LocalDateTime start, LocalDateTime end, String location) {
-
-        this.name = name;
-        this.start = start;
-        this.endDateTime = end;
+        super(name, start);
+        this.endTime = end;
         this.location = location;
         this.complete = false;
-
     }
 
-    //marks the meeting as complete
+    //implementing getName method
+    @Override
+    public String getName() {
+        return name;
+    }
+
+    //getter for endTime
+    public LocalDateTime getEndTime() {
+        return endTime;
+    }
+
+    //setter for endTime
+    public void setEndTime(LocalDateTime end) {
+        this.endTime = end;
+    }
+
+    //calculate duration
+    public Duration getDuration() {
+        return Duration.between(dateTime, endTime);
+    }
+
+    //getter for location
+    public String getLocation() {
+        return location;
+    }
+
+    //setter for location
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
+    //marking as complete
     @Override
     public void complete() {
-
         this.complete = true;
-
     }
 
-    //returns true if the meeting is complete
+    //checking if complete
     @Override
     public boolean isComplete() {
-
         return complete;
-
     }
-
-    //returns when meeting will end
-    public LocalDateTime getEndTime() {
-
-        return endDateTime;
-
-    }
-
-    //returns how long the meeting is duration-wise
-    public Duration getDuration() {
-
-        return Duration.between(start, endDateTime);
-
-    }
-
-    //returns the location of the meeting
-    public String getLocation() {
-
-        return location;
-
-    }
-
-    //sets when the meeting will end
-    public void setEndTime(LocalDateTime end) {
-
-        this.endDateTime = end;
-
-    }
-
-    //sets the location of the meeting
-    public void setLocation(String location) {
-
-        this.location = location;
-
-    }
-
 }
-

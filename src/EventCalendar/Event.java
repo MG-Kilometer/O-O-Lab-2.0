@@ -1,17 +1,17 @@
 //Author: Miles Glover
-//Purpose of File:
 
 package EventCalendar;
 
+//import
 import java.time.LocalDateTime;
 
-public class Event implements Comparable<Event> {
+//class holds most general information of an event
+public abstract class Event implements Comparable<Event> {
 
     //class variables
-    private String name;
-    private LocalDateTime dateTime;
+    protected String name;
+    protected LocalDateTime dateTime;
 
-    //constructor
     public Event(String name, LocalDateTime dateTime) {
 
         this.name = name;
@@ -19,19 +19,8 @@ public class Event implements Comparable<Event> {
 
     }
 
-    //getter for name
-    public String getName() {
-
-        return name;
-
-    }
-
-    //setter for name
-    public void setName(String name) {
-
-        this.name = name;
-
-    }
+    //abstract method
+    public abstract String getName();
 
     //getter for dateTime
     public LocalDateTime getDateTime() {
@@ -47,19 +36,18 @@ public class Event implements Comparable<Event> {
 
     }
 
-    //compareTo method for sorting events by dateTime
-    @Override
-    public int compareTo(Event e) {
+    //setter for name
+    public void setName(String name) {
 
-        return this.dateTime.compareTo(e.dateTime);
+        this.name = name;
 
     }
 
-    //toString method for debugging/display purposes
+    //compareTo method for sorting events by dateTime
     @Override
-    public String toString() {
+    public int compareTo(Event other) {
 
-        return "Event{name='" + name + "', dateTime=" + dateTime + "}";
+        return this.dateTime.compareTo(other.dateTime);
 
     }
 

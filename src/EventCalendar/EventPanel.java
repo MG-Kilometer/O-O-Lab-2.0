@@ -1,16 +1,73 @@
 //Author: Miles Glover
-//Purpose of File:
 
 package EventCalendar;
 
-public class EventPanel {
+//imports
+import javax.swing.*;
+import java.awt.*;
+import java.time.format.DateTimeFormatter;
 
-    /*
+//displays event details of a single event and allows you to complete completable events
+public class EventPanel extends JPanel {
 
-event: Event   // the event that this panel displays.
-completeButton: JButton  // a button that completes the Event (sets the complete variable to true).  Note, this should only appear on events that implement Completable.
-EventPanel should display the data of the Event: name, time, name, duration (if applicable), location (if applicable), and completion status.  You can decide whether to drawStrings in the paintComponent function or to add labels and have them display.
-updateUrgency(): void  EventPanel should set its background color according to the Urgency of the Event: red for overdue, yellow for imminent, green for distant.  // Applies only if optional features are being implemented.  Otherwise, there is no Urgency field.
+    //class variables
+    private Event event;
+    private JButton completeButton;
 
-*/
+    //constructs an EventPanel for the given event.
+    public EventPanel(Event event) {
+
+        this.event = event;
+        setLayout(new BorderLayout());
+
+        //display event details
+        JLabel nameLabel = new JLabel("Event: " + event.getName());
+
+        //display the date in the correct format
+        DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+        String formattedDate = event.getDateTime().format(dateFormatter);
+        JLabel dateLabel = new JLabel("Date: " + formattedDate);
+
+        //create info panels for name/date
+        JPanel infoPanel = new JPanel();
+        infoPanel.setLayout(new GridLayout(0, 1));
+        infoPanel.add(nameLabel);
+        infoPanel.add(dateLabel);
+
+        //if event is a Meeting, add location and duration
+        if (event instanceof Meeting) {
+
+            Meeting meeting = (Meeting) event;
+
+            //format the duration ahead of time to get rid of java.time string artefacts
+            String formattedDuration = meeting.getDuration().toHours()+" hours";
+
+            JLabel durationLabel = new JLabel("Duration: " + formattedDuration);
+            JLabel locationLabel = new JLabel("Location: " + meeting.getLocation());
+            infoPanel.add(durationLabel);
+            infoPanel.add(locationLabel);
+
+        }
+
+        add(infoPanel, BorderLayout.CENTER);
+
+        //if event is Completable, add a "Complete" button
+        if (event instanceof Completable) {
+
+            completeButton = new JButton("Complete");
+            completeButton.addActionListener(e -> {
+
+                ((Completable) event).complete();
+                completeButton.setEnabled(false);
+
+            });
+
+            add(completeButton, BorderLayout.SOUTH);
+
+        }
+
+    }
+
+
 }
+
